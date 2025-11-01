@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>幻茶</title>
+  <style>
+    /* 页面样式初始化 */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 设置类为 container 的 div 容器样式,用于包含整个内容 */
+    .container {
+      position: relative;
+      /*相对定位*/
+      width: fit-content;
+      /*  默认宽度为适应内容的宽度*/
+      max-width: 100%;
+      /*宽度最大值为父元素的宽度*/
+      margin: 0 auto;
+      /*容器在父元素中水平居中*/
+      text-align: center;
+      /*容器中的内容水平居中*/
+      height: 100vh;
+      /*将容器高度设置为浏览器视窗高度的100%*/
+      overflow: hidden;
+      /*超出容器的内容将被隐藏*/
+    }
+
+    /* 设置类为 bgimg 的背景 img 元素的样式,用于显示背景图像 */
+    .hand {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: -2%;
+      z-index: 5;
+    }
+
+    /* 设置类为 title 的标题 img 元素的样式,用于显示标题图像 */
+    .text {
+      max-width: 100%;
+      max-height: 100%;
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container"><!-- 包含整体内容 -->
+    <img class="hand" src="./picture/Introduction/hand.png">
+    <img class="text" src="./picture/Introduction/text.png">
+  </div>
+</body>
+
+</html>
