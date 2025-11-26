@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>地图页面</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .map-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300%;
+      /* 1920/640 = 3倍宽度 */
+      height: 100%;
+    }
+
+    .map {
+      width: 100%;
+      height: 100%;
+      background-image: url('./picture/06_map/1.gif');
+      background-size: cover;
+      background-position: left center;
+      background-repeat: no-repeat;
+    }
+
+    .music-btn {
+      position: fixed;
+      top: 3%;
+      left: 5%;
+      width: 10%;
+      height: auto;
+      max-width: 50px;
+      max-height: 50px;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    .music-btn img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .return-btn {
+      position: fixed;
+      top: 3%;
+      right: 5%;
+      width: 10%;
+      height: auto;
+      max-width: 50px;
+      max-height: 50px;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    .return-btn img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="map-container" id="mapContainer">
+      <div class="map"></div>
+    </div>
+
+    <div class="music-btn" id="musicButton">
+      <img src="./picture/button/music.gif" alt="音乐按钮" id="musicIcon">
+    </div>
+
+    <div class="return-btn" id="returnButton">
+      <img src="./picture/button/return.gif" alt="返回按钮">
+    </div>
+  </div>
+
+  <script>
+    // 音乐按钮切换功能
+    document.getElementById('musicButton').addEventListener('click', function () {
+      const musicIcon = document.getElementById('musicIcon');
+      const currentSrc = musicIcon.getAttribute('src');
+
+      if (currentSrc === './picture/button/music.gif') {
+        musicIcon.src = './picture/button/no_music.gif';
+      } else {
+        musicIcon.src = './picture/button/music.gif';
+      }
+    });
+
+    // 返回按钮功能
+    document.getElementById('returnButton').addEventListener('click', function () {
+      alert('返回上一页');
+      // 这里可以替换为实际的返回逻辑
+    });
+
+    // 地图滑动功能
+    const mapContainer = document.getElementById('mapContainer');
+    const container = document.getElementById('container');
+
+    let startX = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    let isDragging = false;
+
+    // 触摸事件处理
+    container.addEventListener('touchstart', touchStart);
+    container.addEventListener('touchmove', touchMove);
+    container.addEventListener('touchend', touchEnd);
+
+    // 鼠标事件处理（用于桌面测试）
+    container.addEventListener('mousedown', mouseDown);
+    container.addEventListener('mousemove', mouseMove);
+    container.addEventListener('mouseup', mouseUp);
+    container.addEventListener('mouseleave', mouseUp);
+
+    function touchStart(e) {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+      mapContainer.style.transition = 'none';
+    }
+
+    function touchMove(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+      const currentX = e.touches[0].clientX;
+      const diff = currentX - startX;
+      currentTranslate = prevTranslate + (diff / container.offsetWidth) * 100;
+
+      // 限制滑动范围
+      const maxTranslate = 0;
+      const minTranslate = -200; // 300% - 100% = 200%
+      currentTranslate = Math.max(minTranslate, Math.min(maxTranslate, currentTranslate));
+
+      mapContainer.style.transform = `translateX(${currentTranslate}%)`;
+    }
+
+    function touchEnd() {
+      isDragging = false;
+      prevTranslate = currentTranslate;
+    }
+
+    function mouseDown(e) {
+      startX = e.clientX;
+      isDragging = true;
+      mapContainer.style.transition = 'none';
+    }
+
+    function mouseMove(e) {
+      if (!isDragging) return;
+      const currentX = e.clientX;
+      const diff = currentX - startX;
+      currentTranslate = prevTranslate + (diff / container.offsetWidth) * 100;
+
+      // 限制滑动范围
+      const maxTranslate = 0;
+      const minTranslate = -200; // 300% - 100% = 200%
+      currentTranslate = Math.max(minTranslate, Math.min(maxTranslate, currentTranslate));
+
+      mapContainer.style.transform = `translateX(${currentTranslate}%)`;
+    }
+
+    function mouseUp() {
+      isDragging = false;
+      prevTranslate = currentTranslate;
+    }
+
+    // 初始设置
+    mapContainer.style.transform = `translateX(0%)`;
+  </script>
+</body>
+
+</html>

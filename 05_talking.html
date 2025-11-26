@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>talking</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-image: url('./picture/05_talking/bg.gif');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      cursor: pointer;
+    }
+
+    .dialog-box {
+      position: absolute;
+      bottom: 0.8%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 94%;
+      /* 602/640 ≈ 94% */
+      height: auto;
+      max-width: 602px;
+    }
+
+    .dialog-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .dialog-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      color: #000;
+      font-size: 5vw;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .music-btn {
+      position: absolute;
+      top: 3%;
+      left: 5%;
+      width: 10%;
+      height: auto;
+      max-width: 50px;
+      max-height: 50px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .music-btn img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .return-btn {
+      position: absolute;
+      top: 3%;
+      right: 5%;
+      width: 10%;
+      height: auto;
+      max-width: 50px;
+      max-height: 50px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .return-btn img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* 媒体查询适配不同屏幕 */
+    @media (min-width: 768px) {
+      .dialog-text {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .dialog-text {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="screen">
+    <div class="dialog-box">
+      <img src="./picture/05_talking/1.gif" alt="对话框">
+      <div class="dialog-text" id="dialogText"></div>
+    </div>
+
+    <div class="music-btn" id="musicButton">
+      <img src="./picture/button/music.gif" alt="音乐按钮" id="musicIcon">
+    </div>
+
+    <div class="return-btn" id="returnButton">
+      <img src="./picture/button/return.gif" alt="返回按钮">
+    </div>
+  </div>
+
+  <script>
+    // 对话内容数组
+    const dialogues = [
+      "客观万福！小店团茶、器皿一应俱全，不知今日您要瞧些甚么",
+      "劳烦掌柜。初涉此道，欲购一套行“茶百戏”的必备器物，不知当如何置办，望指点",
+      "客观问得正着，小店正有一整套器皿，无论是点汤还是击拂，都是极趁手，客观可否购入？"
+    ];
+
+    // 当前对话索引
+    let currentDialogueIndex = 0;
+
+    // 获取对话文本元素
+    const dialogText = document.getElementById('dialogText');
+
+    // 屏幕点击事件处理
+    document.getElementById('screen').addEventListener('click', function (event) {
+      // 如果点击的是按钮区域，则不处理对话切换
+      if (event.target.closest('.music-btn') || event.target.closest('.return-btn')) {
+        return;
+      }
+
+      // 更新对话内容
+      if (currentDialogueIndex < dialogues.length) {
+        dialogText.textContent = dialogues[currentDialogueIndex];
+        currentDialogueIndex++;
+      } else {
+        // 如果已经显示完所有对话，可以重置或保持最后一条
+        // 这里选择重置，重新开始对话
+        currentDialogueIndex = 0;
+        dialogText.textContent = dialogues[currentDialogueIndex];
+        currentDialogueIndex++;
+      }
+    });
+
+    // 音乐按钮切换功能
+    document.getElementById('musicButton').addEventListener('click', function () {
+      const musicIcon = document.getElementById('musicIcon');
+      const currentSrc = musicIcon.getAttribute('src');
+
+      if (currentSrc === './picture/button/music.gif') {
+        musicIcon.src = './picture/button/no_music.gif';
+      } else {
+        musicIcon.src = './picture/button/music.gif';
+      }
+    });
+  </script>
+</body>
+
+</html>
