@@ -177,7 +177,10 @@
       if (progress >= 100) {
         progress = 100;
         clearInterval(loadingInterval);
-        // 这里可以添加加载完成后的操作
+        // 加载完成后跳转到03_intro_1.html
+        setTimeout(() => {
+          window.location.href = '03_intro_1.html';
+        }, 500); // 延迟500毫秒，让用户看到100%的进度条
       }
       progressFull.style.width = progress + '%';
     }, 300);
