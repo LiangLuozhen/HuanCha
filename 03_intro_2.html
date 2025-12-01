@@ -28,6 +28,8 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      cursor: pointer;
+      /* 添加指针样式提示可点击 */
     }
 
     .content-image {
@@ -97,7 +99,7 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="container" id="mainContainer">
     <div class="content-image" id="envelope"></div>
     <div class="music-btn" id="musicButton">
       <img src="./picture/button/music.gif" alt="音乐按钮" id="musicIcon">
@@ -107,7 +109,10 @@
 
   <script>
     // 音乐按钮切换功能
-    document.getElementById('musicButton').addEventListener('click', function () {
+    document.getElementById('musicButton').addEventListener('click', function (event) {
+      // 阻止事件冒泡，防止触发页面跳转
+      event.stopPropagation();
+
       const musicIcon = document.getElementById('musicIcon');
       const currentSrc = musicIcon.getAttribute('src');
 
@@ -116,6 +121,12 @@
       } else {
         musicIcon.src = './picture/button/music.gif';
       }
+    });
+
+    // 添加页面点击跳转功能
+    document.getElementById('mainContainer').addEventListener('click', function () {
+      // 跳转到04_game_instr.html页面
+      window.location.href = '04_game_instr.html';
     });
   </script>
 </body>
